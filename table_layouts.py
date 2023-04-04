@@ -15,6 +15,7 @@ motherplate_batch = """ CREATE TABLE IF NOT EXISTS mp_batch(
 
 motherplate_table = """ CREATE TABLE IF NOT EXISTS mp_plates(
             mp_barcode TEXT PRIMARY KEY,
+            raw_data TEXT NOT NULL,
             mp_batch TEXT NOT NULL,
             date REAL NOT NULL,
             FOREIGN KEY (mp_batch) REFERENCES mp_batch(mp_batch)

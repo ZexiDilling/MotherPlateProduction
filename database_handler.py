@@ -145,7 +145,7 @@ class DataBaseFunctions:
         self.cursor.close()
         return records
 
-    def find_data(self, table, barcode, id_number, barcode_name, id_name):
+    def find_data(self, table, barcode_name, barcode, id_name=None, id_number=None):
         """
         Finds data in the database
 
@@ -162,7 +162,10 @@ class DataBaseFunctions:
         :return: Data from the database
         :rtype: dict
         """
-        find = f"SELECT rowid, * FROM '{table}' WHERE {barcode_name} = '{barcode}' AND {id_name} = '{id_number}'"
+        if not id_name:
+            find = f"SELECT rowid, * FROM '{table}' WHERE {barcode_name} = '{barcode}'"
+        else:
+            find = f"SELECT rowid, * FROM '{table}' WHERE {barcode_name} = '{barcode}' AND {id_name} = '{id_number}'"
         return self._fetch(find)
 
     def number_of_rows(self, table):
