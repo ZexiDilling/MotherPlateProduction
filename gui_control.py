@@ -72,7 +72,7 @@ def main(config):
                 error_handler(config, sg, test_string)
 
         if event == "-LISTEN-":
-            Path("duplicat_compounds.txt").write_text()
+            Path("duplicat_compounds.txt").write_text("")
             window["-KILL-"].update(value=False)
             window["-DUP_TUBE_COUNTER-"].update(value=0)
             window["-RACK_COUNTER-"].update(value=0)

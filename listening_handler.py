@@ -6,6 +6,7 @@ import time
 from pathlib import Path
 
 from gui_functions import compare_data
+from gui_layout import popup_duplicate_table
 
 
 class MyEventHandler(FileSystemEventHandler):
@@ -28,6 +29,7 @@ class MyEventHandler(FileSystemEventHandler):
         :param event: The full event, including the path to the file that have been created
         """
         rack_counter = int(self.window["-RACK_COUNTER-"].get())
+        dup_counter = int(self.window["-DUP_TUBE_COUNTER-"].get())
         file = Path(event.src_path)
         # plate list:
 
@@ -41,10 +43,12 @@ class MyEventHandler(FileSystemEventHandler):
 
             # Check if there are any duplicates in the scanned rack
             test_string = compare_data(self.config, file)
+            print(test_string)
 
             # Write all the data into a doc, that can be used to create a table
             temp_doc = Path("duplicat_compounds.txt")
             if type(test_string) == dict:
+                self.window["-DUP_TUBE_COUNTER-"].update(value=dup_counter + 1)
                 with temp_doc.open("a") as file:
                     # write headlines into doc:
                     for headlines in test_string["headlines"]:
@@ -60,6 +64,9 @@ class MyEventHandler(FileSystemEventHandler):
                         file.write(";")
 
                     file.write("\n")
+
+
+
 
         # if it is not a file, it is assumed it is a folder
         else:
