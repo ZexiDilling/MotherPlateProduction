@@ -41,6 +41,17 @@ def main(config):
         if event == sg.WIN_CLOSED or event == "-CLOSE-":
             break
 
+        if event == "Import Folder":
+            import_data = sg.PopupGetFolder("Please select a folder with MotherPlate Files")
+
+            try:
+                import_data = Path(import_data)
+            except TypeError:
+                pass
+            else:
+                test_string = motherplate_import_controller(config, import_data)
+
+
         if event == "Import MPs":
             import_data = sg.PopupGetFile("Please select a File with produced MotherPlate's")
             try:

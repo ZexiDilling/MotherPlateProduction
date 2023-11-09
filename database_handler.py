@@ -130,7 +130,7 @@ class DataBaseFunctions:
         data_layout = self._data_layout(data, list_columns)
         self._add_data_to_table(layout, data_layout)
 
-    def _fetch(self, data):
+    def fetch(self, data):
         """
         Create a connection to the database, execute the search and gets data out of  the database
 
@@ -166,7 +166,7 @@ class DataBaseFunctions:
             find = f"SELECT rowid, * FROM '{table}' WHERE {barcode_name} = '{barcode}'"
         else:
             find = f"SELECT rowid, * FROM '{table}' WHERE {barcode_name} = '{barcode}' AND {id_name} = '{id_number}'"
-        return self._fetch(find)
+        return self.fetch(find)
 
     def number_of_rows(self, table):
         """

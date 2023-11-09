@@ -29,7 +29,7 @@ class MyEventHandler(FileSystemEventHandler):
         :param event: The full event, including the path to the file that have been created
         """
         rack_counter = int(self.window["-RACK_COUNTER-"].get())
-        dup_counter = int(self.window["-DUP_TUBE_COUNTER-"].get())
+        # dup_counter = int(self.window["-DUP_TUBE_COUNTER-"].get())
         file = Path(event.src_path)
         # plate list:
 
@@ -48,7 +48,8 @@ class MyEventHandler(FileSystemEventHandler):
             # Write all the data into a doc, that can be used to create a table
             temp_doc = Path("duplicat_compounds.txt")
             if type(test_string) == dict:
-                self.window["-DUP_TUBE_COUNTER-"].update(value=dup_counter + 1)
+                dup_counter = test_string["dup_count"]
+                self.window["-DUP_TUBE_COUNTER-"].update(value=dup_counter)
                 with temp_doc.open("a") as file:
                     # write headlines into doc:
                     for headlines in test_string["headlines"]:
@@ -64,7 +65,8 @@ class MyEventHandler(FileSystemEventHandler):
                         file.write(";")
 
                     file.write("\n")
-
+            else:
+                self.window["-DUP_TUBE_COUNTER-"].update(value=0)
 
 
 

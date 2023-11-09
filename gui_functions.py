@@ -132,7 +132,7 @@ def compare_data(config, path):
                 table = "compound_main"
                 headline = "compound_id"
                 test_string = f"SELECT rowid, * FROM '{table}' WHERE {headline} = '{compound_id}'"
-                record = dbf._fetch(test_string)
+                record = dbf.fetch(test_string)
                 tube_counter += 1
                 if record:
                     temp_data = []
@@ -142,8 +142,8 @@ def compare_data(config, path):
 
                     duplicat_tubes.append(temp_data)
         if duplicat_tubes:
-            duplicat_dict = {"dup_table_data": duplicat_tubes, "headlines": duplicat_tubes_headlines,
-                             "dup_count": duplicat_counter, "tube_count": tube_counter}
+            duplicat_dict = {"dup_count": duplicat_counter, "tube_count": tube_counter,
+                             "dup_table_data": duplicat_tubes, "headlines": duplicat_tubes_headlines}
             return duplicat_dict
         else:
             return "No duplicates"
@@ -197,6 +197,7 @@ def _grab_data_from_txt(path):
 
             line_data = line.split(":")
             temp_headlines = line_data[0].split(",")[:-1]
+
             temp_data_list = line_data[1].split(";")
 
             # check how long the headline is, and makes sure that the final headline is the longest
@@ -226,7 +227,7 @@ def scan_for_mp_files(config, mp_folder):
     missing_files_names = []
     all_files = list(Path(mp_folder).glob("**/*.txt"))
     if not all_files:
-        return "Error_0001"
+        return "Error_0001", "Error_0001"
 
     dbf = DataBaseFunctions(config)
     table = "mp_plates"
